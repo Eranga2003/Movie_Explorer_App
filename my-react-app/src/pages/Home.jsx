@@ -10,6 +10,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AppleLogo from '/src/assets/apple.png'; 
 import Android from '/src/assets/android.png';
+import Navbar from '../components/Navbar.jsx';
 
 const HomePage = () => {
   const [darkMode, setDarkMode] = useState(true);
@@ -65,7 +66,7 @@ const HomePage = () => {
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
             {/* Logo */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <PlayCircleFilledWhiteIcon sx={{ color: '#00e6a1' }} />
+              <PlayCircleFilledWhiteIcon sx={{ color: '#00e6a1' }} />   
               <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#00e6a1' }}>
                 LoonsMovie
               </Typography>
@@ -202,8 +203,8 @@ const HomePage = () => {
         textTransform: 'none',
         
         backgroundColor: darkMode ? 'transparent' : '#1e1e1e',
-        fontWeight: 500,
-        // fontWeight: 'bold',
+        // fontWeight: 500,
+        fontWeight: 'bold',
         color: 'white',
         border: 'none',
         
