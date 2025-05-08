@@ -187,7 +187,7 @@ const HomePage = () => {
     left: '50%',
     
     backgroundColor: 'transparent',
-    left: '20%',
+    // left: '20%',
     gap: 4,
     '& .MuiButtonGroup-grouped': {
       border: 'none ',
@@ -203,7 +203,7 @@ const HomePage = () => {
         
         backgroundColor: darkMode ? 'transparent' : '#1e1e1e',
         fontWeight: 500,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: 'white',
         border: 'none',
         
