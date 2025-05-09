@@ -10,7 +10,6 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AppleLogo from '/src/assets/apple.png'; 
 import Android from '/src/assets/android.png';
-import Navbar from '../components/Footer.jsx';
 import { useNavigate } from 'react-router-dom';
 import content from '../assets/content.png'; 
 import UserCountAnimation from '../components/Count.jsx'; 
@@ -20,9 +19,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
-const API_KEY = '6bcf9695706af6ff6cdcd8803820e9e2';
-const BASE_URL = 'https://api.themoviedb.org/3';
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
@@ -205,7 +202,7 @@ const HomePage = () => {
     },
   }}
 >
-  {['TV Shows', 'Movies', 'New, Coming, Leaving'].map((label, i) => (
+  {['Home','TV Shows', 'Movies', 'New, Coming, Leaving'].map((label, i) => (
     <Button
       key={i}
       onClick={() => {
@@ -214,6 +211,12 @@ const HomePage = () => {
         }
         if( label === 'Movies') {
           navigate('/movies'); // ✅ correct route
+        }
+        if( label === 'New, Coming, Leaving') {
+          navigate('/comingsoon'); // ✅ correct route
+        }
+        if (label === 'Home') {
+          navigate('/'); // ✅ correct route
         }
         // You can add more conditions here for Movies, etc.
       }}

@@ -30,8 +30,10 @@ import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import AppleLogo from '/src/assets/apple.png';
 import Android from '/src/assets/android.png';
 import { useNavigate } from 'react-router-dom';
-const Movies = () => {
+
+const ComingSoon = () => {
     const navigate = useNavigate();
+      
   const [darkMode, setDarkMode] = useState(true);
   const [movies, setMovies] = useState([]);
 
@@ -71,7 +73,7 @@ const Movies = () => {
     const fetchMovies = async () => {
       try {
         const response = await axios.get(
-          'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1',
+          'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1',
           {
             headers: {
               Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YmNmOTY5NTcwNmFmNmZmNmNkY2Q4ODAzODIwZTllMiIsIm5iZiI6MTc0NjcyNDEwMi43LCJzdWIiOiI2ODFjZTUwNmY4ZmNlZDYwNWNiMWM5YWUiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8V2hzf7IdvfwwDoYPFFaaBVoOt8e1gCKNSA9OvXH670`
@@ -80,7 +82,7 @@ const Movies = () => {
         );
         setMovies(response.data.results);
       } catch (error) {
-        console.error('Error fetching movies:', error);
+        console.error('Error fetching upcoming movies:', error);
       }
     };
 
@@ -88,7 +90,7 @@ const Movies = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Box
         sx={{
           minHeight: '100vh',
@@ -99,7 +101,7 @@ const Movies = () => {
           color: darkMode ? 'white' : 'black',
         }}
       >
-        {/* AppBar */}
+        {/* Complete Navbar - Same as Movies Page */}
         <AppBar position="fixed" sx={{ backgroundColor: darkMode ? 'rgb(3, 18, 24)' : '#ffffff', paddingX: 2 }}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -202,24 +204,24 @@ const Movies = () => {
                 },
               }}
             >
-             {['Home', 'TV Shows', 'Movies', 'New, Coming, Leaving'].map((label, i) => (
-    <Button
-      key={i}
-      onClick={() => {
-        if (label === 'TV Shows') {
-          navigate('/tvshows'); // ✅ correct route
-        }
-        if( label === 'Movies') {
-          navigate('/movies'); // ✅ correct route
-        }
-        if( label === 'New, Coming, Leaving') {
-          navigate('/comingsoon'); // ✅ correct route
-        }
-        if (label === 'Home') {
+              {['Home','TV Shows', 'Movies', 'New, Coming, Leaving'].map((label, i) => (
+                  <Button
+                    key={i}
+                    onClick={() => {
+                      if (label === 'TV Shows') {
+                        navigate('/tvshows'); 
+                      }
+                      if( label === 'Movies') {
+                        navigate('/movies'); 
+                      }
+                      if( label === 'New, Coming, Leaving') {
+                        navigate('/comingsoon'); 
+                      }
+                      if (label === 'Home') {
           navigate('/'); // ✅ correct route
         }
-        // You can add more conditions here for Movies, etc.
-      }}
+                      
+                    }}
                   sx={{
                     textTransform: 'none',
                     backgroundColor: darkMode ? 'transparent' : '#1e1e1e',
@@ -245,19 +247,21 @@ const Movies = () => {
           </Stack>
         </AppBar>
 
-        {/* Popular Movies Section */}
-        <Box sx={{ padding: 4,
-            margin:'92px',
-         }}>
-          <Typography variant="h5" sx={{ marginBottom: 4, fontWeight: 'bold', color: '#00e6a1' }}>
-            Popular Movies
+
+  
+
+
+    {/* Coming Soon Movies Section */}
+        <Box sx={{ padding: 4, marginTop: '100px' }}>
+          <Typography variant="h4" sx={{ marginBottom: 4, fontWeight: 'bold', color: '#00e6a1' }}>
+            Coming Soon Movies
           </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 9 }}>
             {movies.map((movie) => (
               <Box
                 key={movie.id}
                 sx={{
-                  width: 180,
+                  width: 240,
                   height: 420,
                   display: 'flex',
                   flexDirection: 'column',
@@ -290,7 +294,7 @@ const Movies = () => {
                     }}
                   >
                     <Typography variant="h6" sx={{ color: '#00e6a1', fontWeight: 'bold' }}>
-                      Watch Now
+                      Coming {new Date(movie.release_date).toLocaleDateString()}
                     </Typography>
                   </Box>
                   <img
@@ -306,7 +310,7 @@ const Movies = () => {
                   <Typography
                     variant="subtitle1"
                     sx={{
-                      fontSize: '0.9rem',
+                      fontSize: '1rem',
                       fontWeight: 'bold',
                       mt: 1,
                       lineHeight: 1.2,
@@ -321,7 +325,7 @@ const Movies = () => {
                     {movie.title}
                   </Typography>
                   <Typography variant="body2" sx={{ fontSize: '0.8rem', marginTop: '2px' }}>
-                    ⭐ {movie.vote_average.toFixed(1)} / 10
+                    Release Date: {new Date(movie.release_date).toLocaleDateString()}
                   </Typography>
                 </Box>
 
@@ -340,19 +344,16 @@ const Movies = () => {
                         color: 'black',
                       },
                     }}
-                    onClick={() => alert(`Show Trailer for: ${movie.title}`)}
+                    onClick={() => alert(`Notify me about: ${movie.title}`)}
                   >
-                    See Trailer
+                    Notify Me
                   </Button>
                 </Box>
               </Box>
             ))}
-
-            
           </Box>
-          
         </Box>
-        {/* Modern Footer */}
+{/* Modern Footer */}
         <Box 
           sx={{
             background: darkMode 
@@ -553,10 +554,10 @@ const Movies = () => {
             </Box>
           </Container>
         </Box>
+     
       </Box>
-      
     </ThemeProvider>
   );
 };
 
-export default Movies;
+export default ComingSoon;

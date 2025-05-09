@@ -29,8 +29,10 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import AppleLogo from '/src/assets/apple.png';
 import Android from '/src/assets/android.png';
+import { useNavigate } from 'react-router-dom';
 
 const TvShows = () => {
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
   const [shows, setShows] = useState([]);
 
@@ -221,9 +223,24 @@ const TvShows = () => {
                 },
               }}
             >
-              {['TV Shows', 'Movies', 'New, Coming, Leaving'].map((label, i) => (
-                <Button
-                  key={i}
+              {['Home','TV Shows', 'Movies', 'New, Coming, Leaving'].map((label, i) => (
+    <Button
+      key={i}
+      onClick={() => {
+        if (label === 'TV Shows') {
+          navigate('/tvshows'); // ✅ correct route
+        }
+        if( label === 'Movies') {
+          navigate('/movies'); // ✅ correct route
+        }
+        if( label === 'New, Coming, Leaving') {
+          navigate('/comingsoon'); // ✅ correct route
+        }
+        if (label === 'Home') {
+          navigate('/'); // ✅ correct route
+        }
+        // You can add more conditions here for Movies, etc.
+      }}
                   sx={{
                     textTransform: 'none',
                     backgroundColor: darkMode ? 'transparent' : '#1e1e1e',
@@ -252,8 +269,10 @@ const TvShows = () => {
         </AppBar>
 
         {/* Popular TV Shows Section */}
-        <Box sx={{ padding: 4 }}>
-          <Typography variant="h5" sx={{ color: darkMode ? 'white' : 'black', marginBottom: 2 }}>
+        <Box sx={{ padding: 4, 
+          margin:'92px',
+        }}>
+          <Typography variant="h5" sx={{ marginBottom: 4, fontWeight: 'bold', color: '#00e6a1' }}>
             Popular TV Shows
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5}}>
