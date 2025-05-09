@@ -10,9 +10,11 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AppleLogo from '/src/assets/apple.png'; 
 import Android from '/src/assets/android.png';
-import Navbar from '../components/Navbar.jsx';
+import Navbar from '../components/Footer.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
   const theme = useTheme(); // Access the current theme
 
@@ -179,19 +181,16 @@ const HomePage = () => {
 
         
 
-          <ButtonGroup
+       <ButtonGroup
   disableElevation
   variant="contained"
   sx={{
-   
     top: '30%',
     left: '50%',
-    
     backgroundColor: 'transparent',
-    // left: '20%',
     gap: 4,
     '& .MuiButtonGroup-grouped': {
-      border: 'none ',
+      border: 'none',
       borderRadius: '10px',
     },
   }}
@@ -199,15 +198,21 @@ const HomePage = () => {
   {['TV Shows', 'Movies', 'New, Coming, Leaving'].map((label, i) => (
     <Button
       key={i}
+      onClick={() => {
+        if (label === 'TV Shows') {
+          navigate('/tvshows'); // ✅ correct route
+        }
+        if( label === 'Movies') {
+          navigate('/movies'); // ✅ correct route
+        }
+        // You can add more conditions here for Movies, etc.
+      }}
       sx={{
         textTransform: 'none',
-        
         backgroundColor: darkMode ? 'transparent' : '#1e1e1e',
-        // fontWeight: 500,
         fontWeight: 'bold',
         color: 'white',
         border: 'none',
-        
         borderRadius: '10px',
         paddingX: 3,
         paddingY: 1,
@@ -226,6 +231,7 @@ const HomePage = () => {
     </Button>
   ))}
 </ButtonGroup>
+
 
 
 
