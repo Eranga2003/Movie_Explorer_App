@@ -99,7 +99,7 @@ const Movies = () => {
         }}
       >
         {/* AppBar */}
-        <AppBar position="static" sx={{ backgroundColor: darkMode ? 'rgb(3, 18, 24)' : '#ffffff', paddingX: 2 }}>
+        <AppBar position="fixed" sx={{ backgroundColor: darkMode ? 'rgb(3, 18, 24)' : '#ffffff', paddingX: 2 }}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <PlayCircleFilledWhiteIcon sx={{ color: '#00e6a1' }} />
