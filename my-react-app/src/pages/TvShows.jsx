@@ -387,7 +387,7 @@ const [isSearching, setIsSearching] = useState(false);
           <Typography variant="h5" sx={{ marginBottom: 4, fontWeight: 'bold', color: '#00e6a1' }}>
             Popular TV Shows
           </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5}}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4}}>
             {shows.map((show) => (
               <Box 
                 key={show.id} 

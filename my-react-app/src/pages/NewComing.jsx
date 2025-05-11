@@ -367,7 +367,7 @@ const [isSearching, setIsSearching] = useState(false);
           <Typography variant="h4" sx={{ marginBottom: 4, fontWeight: 'bold', color: '#00e6a1' }}>
             Coming Soon Movies
           </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 9 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
             {movies.map((movie) => (
               <Box
                 key={movie.id}

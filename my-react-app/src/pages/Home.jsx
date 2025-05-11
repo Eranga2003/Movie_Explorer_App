@@ -466,7 +466,7 @@ const [isSearching, setIsSearching] = useState(false);
       </Box>
       <Box
         sx={{
-          height: '320vh',
+          height: '314vh',
           width: '100vw',
           display: 'flex',
           flexDirection: 'column',

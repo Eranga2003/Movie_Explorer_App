@@ -128,7 +128,7 @@ const [isSearching, setIsSearching] = useState(false);
       <Box
         sx={{
           minHeight: '100vh',
-          width: '100vw',
+          width: '99vw',
           background: darkMode
             ? 'radial-gradient(circle at center,rgb(4, 59, 56),rgb(1, 21, 18),rgb(3, 18, 24))'
             : '#f5f5f5',
@@ -363,7 +363,7 @@ const [isSearching, setIsSearching] = useState(false);
           <Typography variant="h5" sx={{ marginBottom: 4, fontWeight: 'bold', color: '#00e6a1' }}>
             Popular Movies
           </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4}}>
             {movies.map((movie) => (
               <Box
                 key={movie.id}
