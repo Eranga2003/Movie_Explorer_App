@@ -444,7 +444,7 @@ const [isSearching, setIsSearching] = useState(false);
 <Box
           sx={{
             position: 'absolute',
-            top: '100%',
+            top: '96%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             textAlign: 'center',
@@ -455,8 +455,8 @@ const [isSearching, setIsSearching] = useState(false);
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 
-          ,top: '105%',
-          left: '37%',
+          ,top: '103%',
+          left: '40%',
          
           position: 'absolute',
           
