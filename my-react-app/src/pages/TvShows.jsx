@@ -35,6 +35,9 @@ const TvShows = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
   const [shows, setShows] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+const [searchResults, setSearchResults] = useState([]);
+const [isSearching, setIsSearching] = useState(false);
 
   const theme = useTheme();
 
@@ -87,6 +90,40 @@ const TvShows = () => {
 
     fetchTVShows();
   }, []);
+  useEffect(() => {
+  const searchMovies = async () => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      setIsSearching(true);
+      const response = await axios.get(
+        'https://api.themoviedb.org/3/search/movie',
+        {
+          params: {
+            api_key: '6bcf9695706af6ff6cdcd8803820e9e2',
+            query: searchQuery,
+            language: 'en-US',
+            page: 1
+          }
+        }
+      );
+      setSearchResults(response.data.results);
+    } catch (error) {
+      console.error('Search error:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const debounceTimer = setTimeout(() => {
+    searchMovies();
+  }, 500);
+
+  return () => clearTimeout(debounceTimer);
+}, [searchQuery]);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -128,7 +165,12 @@ const TvShows = () => {
                 height: '70%',
               }}
             >
-              <InputBase placeholder="Where to Stream Anything..." sx={{ color: 'white', flex: 1 }} />
+              <InputBase 
+  placeholder="Search movies..." 
+  sx={{ color: 'white', flex: 1 }}
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+/>
               <SearchIcon sx={{ color: 'white' }} />
             </Box>
 
@@ -267,6 +309,76 @@ const TvShows = () => {
             </ButtonGroup>
           </Stack>
         </AppBar>
+        {/* Search Results Section */}
+<Box sx={{ 
+  
+  padding: 4,
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: 5,
+  zIndex: 1,
+  position: 'relative',
+  background: darkMode 
+    ? 'rgba(3, 18, 24, 0.9)' 
+    : 'rgba(255, 255, 255, 0.9)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '16px',
+  mx: 'auto',
+  width: '95%',
+  boxShadow: darkMode 
+    ? '0 8px 32px rgba(0, 0, 0, 0.5)'
+    : '0 8px 32px rgba(0, 0, 0, 0.1)'
+}}>
+  {isSearching && <Typography>Searching...</Typography>}
+  
+  {!isSearching && searchResults.length > 0 && (
+    <>
+      <Typography variant="h5" sx={{ width: '100%', marginBottom: 2, color: '#00e6a1' }}>
+        Search Results for "{searchQuery}"
+      </Typography>
+      {searchResults.map((movie) => (
+        <Box
+          key={movie.id}
+          sx={{
+            width: 180,
+            height: 420,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            position: 'relative',
+            transition: 'transform 0.3s ease',
+            '&:hover': {
+              transform: 'scale(1.05)',
+            },
+          }}
+        >
+          <img
+            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+            alt={movie.title}
+            style={{
+              width: '100%',
+              height: 270,
+              objectFit: 'cover',
+              borderRadius: '8px',
+            }}
+          />
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {movie.title}
+          </Typography>
+          <Typography variant="body2">
+            ⭐ {movie.vote_average.toFixed(1)} / 10
+          </Typography>
+        </Box>
+      ))}
+    </>
+  )}
+
+  {!isSearching && searchResults.length === 0 && searchQuery && (
+    <Typography variant="h6" sx={{ width: '100%', color: '#00e6a1' }}>
+      No results found for "{searchQuery}"
+    </Typography>
+  )}
+</Box>
 
         {/* Popular TV Shows Section */}
         <Box sx={{ padding: 4, 

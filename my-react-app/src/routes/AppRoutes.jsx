@@ -5,6 +5,7 @@ import HomePage from '../pages/Home.jsx';
 import TvShows from '../pages/TvShows.jsx';
 import Movies from '../pages/Movies.jsx';
 import ComingSoon from '../pages/NewComing.jsx';
+import Login from '../pages/Login.jsx';
 
 const AppRoutes = () => (
     <Routes>
@@ -12,6 +13,7 @@ const AppRoutes = () => (
         <Route path="/tvshows" element={<TvShows/>} />
         <Route path="/movies" element={<Movies/>} />
         <Route path="/comingsoon" element={<ComingSoon/>} />
+        <Route path="/login" element={<Login/>} />
     </Routes>
 );
 

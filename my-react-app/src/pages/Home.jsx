@@ -18,12 +18,17 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-
+import  { useEffect } from 'react';
+import axios from 'axios';
+import LoginPage from '../pages/Login.jsx';
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
   const theme = useTheme(); // Access the current theme
+const [searchQuery, setSearchQuery] = useState('');
+const [searchResults, setSearchResults] = useState([]);
+const [isSearching, setIsSearching] = useState(false);
 
   // Define dark and light themes
   const darkTheme = createTheme({
@@ -38,6 +43,40 @@ const HomePage = () => {
       },
     },
   });
+ useEffect(() => {
+  const searchMovies = async () => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      setIsSearching(true);
+      const response = await axios.get(
+        'https://api.themoviedb.org/3/search/movie',
+        {
+          params: {
+            api_key: '6bcf9695706af6ff6cdcd8803820e9e2',
+            query: searchQuery,
+            language: 'en-US',
+            page: 1
+          }
+        }
+      );
+      setSearchResults(response.data.results);
+    } catch (error) {
+      console.error('Search error:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const debounceTimer = setTimeout(() => {
+    searchMovies();
+  }, 500);
+
+  return () => clearTimeout(debounceTimer);
+}, [searchQuery]);
 
   const lightTheme = createTheme({
     palette: {
@@ -99,8 +138,12 @@ const HomePage = () => {
                 height: '70%',
               }}
             >
-              <InputBase placeholder="Where to Stream Anything..." sx={{ color: 'white', flex: 1 }} />
-              <SearchIcon sx={{ color: 'white' }} />
+              <InputBase 
+  placeholder="Search movies..." 
+  sx={{ color: 'white', flex: 1 }}
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+/>
             </Box>
 
             {/* Right Side Actions */}
@@ -112,6 +155,7 @@ const HomePage = () => {
                   <Brightness4Icon sx={{ color: 'black' }} />
                 )}
               </IconButton>
+              
               <IconButton>
                 <PersonOutlineIcon
                   sx={{
@@ -127,23 +171,29 @@ const HomePage = () => {
                   }}
                 />
               </IconButton>
-              <Typography
-                sx={{
-                  color: darkMode ? 'white' : 'black',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  px: 2,
-                  py: 1,
-                  borderRadius: '8px',
-                  transition: '0.3s ease',
-                  '&:hover': {
-                    backgroundColor: '#00c98e',
-                    color: darkMode ? 'rgb(255, 255, 255)' : 'black',
-                  },
-                }}
-              >
-                Login
-              </Typography>
+              
+<Button
+  onClick={() => {
+    console.log('login button clicked');
+    navigate('/login');
+  }}
+  sx={{
+    color: darkMode ? 'white' : 'black',
+    fontWeight: 'bold',
+    paddingX: 2,
+    paddingY: 1,
+    borderRadius: '8px',
+    transition: 'all 0.3s ease',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#00c98e',
+      color: darkMode ? 'white' : 'black',
+    },
+  }}
+>
+  Login
+</Button>
+  
               <Typography
                 sx={{
                   color: darkMode ? 'white' : 'black',
@@ -252,6 +302,76 @@ const HomePage = () => {
 
           </Stack>
         </AppBar>
+        <Box sx={{ 
+  marginTop: '120px',
+  padding: 4,
+  display: 'flex',
+  flexWrap: 'wrap',
+  zIndex: 1, // Add this
+  position: 'relative', // Add this
+  gap: 5,
+   background: darkMode 
+    ? 'rgba(3, 18, 24, 0.9)' 
+    : 'rgba(255, 255, 255, 0.9)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '16px',
+  mx: 'auto',
+  width: '95%',
+  boxShadow: darkMode 
+    ? '0 8px 32px rgba(0, 0, 0, 0.5)'
+    : '0 8px 32px rgba(0, 0, 0, 0.1)'
+}}>
+  {isSearching && <Typography>Searching...</Typography>}
+  
+  {!isSearching && searchResults.length > 0 && (
+    <>
+      <Typography variant="h5" sx={{ width: '100%', marginBottom: 2 }}>
+        Search Results for "{searchQuery}"
+      </Typography>
+      {searchResults.map((movie) => (
+        <Box
+          key={movie.id}
+          sx={{
+            width: 180,
+            height: 420,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            position: 'relative',
+            transition: 'transform 0.3s ease',
+            '&:hover': {
+              transform: 'scale(1.05)',
+            },
+          }}
+        >
+          {/* Use your existing movie card structure */}
+          <img
+            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+            alt={movie.title}
+            style={{
+              width: '100%',
+              height: 270,
+              objectFit: 'cover',
+              borderRadius: '8px',
+            }}
+          />
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {movie.title}
+          </Typography>
+          <Typography variant="body2">
+            ⭐ {movie.vote_average.toFixed(1)} / 10
+          </Typography>
+        </Box>
+      ))}
+    </>
+  )}
+
+  {!isSearching && searchResults.length === 0 && searchQuery && (
+    <Typography variant="h6" sx={{ width: '100%' }}>
+      No results found for "{searchQuery}"
+    </Typography>
+  )}
+</Box>
 
         {/* Main Content */}
         <Box
@@ -346,7 +466,7 @@ const HomePage = () => {
       </Box>
       <Box
         sx={{
-          height: '400vh',
+          height: '320vh',
           width: '100vw',
           display: 'flex',
           flexDirection: 'column',
@@ -569,6 +689,7 @@ const HomePage = () => {
             </Box>
           </Container>
         </Box>
+        
       </Box>
       
       
